@@ -219,11 +219,12 @@ export default function Home() {
           <a className="text-link" href="#form">Open the dossier <ArrowDown size={17} /></a>
         </div>
         <div className="hero-visual" aria-hidden="true">
-          <div className="hero-ring ring-large" />
-          <div className="hero-ring ring-small" />
-          <div className="hero-x">×</div>
-          <div className="hero-crosshair crosshair-a" />
-          <div className="hero-crosshair crosshair-b" />
+          <div className="hero-file-card">
+            <span className="file-card-line" />
+            <span className="file-card-line short" />
+            <span className="file-card-seal">M</span>
+            <span className="file-card-label">CASE FILE<br />THYNA YOUTH</span>
+          </div>
           <p className="vertical-label">TRUST · VISION · VOICE</p>
           <span className="confidential-tag">STRICTLY<br />CONFIDENTIAL</span>
         </div>

@@ -41,14 +41,14 @@
 - [x] Conserver la lisibilité, l’accessibilité et la responsivité de toutes les sections et du parcours de soumission.
 - [x] Vérifier le rendu visuel desktop/mobile après la refonte mafia/noir.
 - [x] Exécuter la suite TypeScript et Vitest après la refonte.
-- [ ] Synchroniser la version finale vers https://github.com/ziedaffes23/opencall-tedx.git ; le dépôt est inspecté mais l’accès d’écriture manque pour le compte authentifié.
+- [x] Synchroniser la version finale vers https://github.com/ziedaffes23/opencall-tedx.git ; le push est réussi sur la branche main.
 
 - [x] Repenser la direction artistique du formulaire TEDx autour du thème mafia/noir avec une élégance éditoriale.
 - [x] Conserver la lisibilité, l’accessibilité et la responsivité de toutes les sections et du parcours de soumission.
 - [x] Vérifier le rendu visuel desktop/mobile après la refonte mafia/noir.
 - [x] Exécuter la suite TypeScript et Vitest après la refonte.
 - [x] Inspecter le dépôt GitHub fourni et confirmer qu’il est vide.
-- [ ] Pousser la version finale vers GitHub après obtention d’un accès d’écriture au dépôt ziedaffes23/opencall-tedx.
+- [x] Pousser la version finale vers GitHub après obtention d’un accès d’écriture au dépôt ziedaffes23/opencall-tedx.
 - [x] Créer un checkpoint de la refonte mafia/noir.
 
 - [x] Revalider le parcours logique après la refonte mafia/noir : validation, erreurs, upload photo, chargement et confirmation couverts par les procédures et tests existants.
@@ -59,7 +59,17 @@
 - [x] Respecter prefers-reduced-motion et maintenir les états de focus accessibles.
 - [x] Vérifier desktop/mobile et la suite TypeScript/Vitest après les animations.
 - [x] Revérifier les permissions GitHub : le compte `affesfatma57-prog` dispose maintenant du rôle `write` sur le dépôt fourni.
-- [ ] Créer un checkpoint de la nouvelle version animée.
+- [x] Créer un checkpoint de la nouvelle version animée après les dernières animations et le push GitHub.
 
 - [x] Ajouter une animation explicite d’ouverture/fermeture du menu mobile.
 - [x] Ajouter une animation de révélation réellement déclenchée par l’entrée des sections dans le viewport.
+
+- [ ] Retirer le symbole × central et tous les cercles décoratifs qui l’entourent dans le hero.
+- [ ] Vérifier que l’URL Google Sheets est configurée côté serveur et que le payload correspond au script Apps Script.
+- [ ] Vérifier la compatibilité du serveur actuel avec Vercel et documenter les variables d’environnement nécessaires.
+- [ ] Tester la version modifiée et la synchronisation Google Sheets.
+- [ ] Préparer la procédure de déploiement Vercel et conserver le checkpoint Manus à jour.
+
+- [ ] Configurer `GOOGLE_SHEETS_WEBHOOK_URL` dans Vercel uniquement, sans dépendre du secret Manus.
+- [ ] Vérifier l’accès Vercel et la possibilité de déployer le serveur actuel sur cette plateforme.
+- [ ] Documenter les réglages Vercel et le test réel de soumission vers Google Sheets.
