@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUpRight, Check, Upload, X } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { mapSpeakerSubmitError } from "@/lib/formErrors";
@@ -71,6 +71,24 @@ export default function Home() {
   const [formError, setFormError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const submitApplication = trpc.speaker.submit.useMutation();
+
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>(".scroll-reveal"));
+    if (!("IntersectionObserver" in window)) {
+      targets.forEach((target) => target.classList.add("is-visible"));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [submitted]);
 
   const update = (key: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -161,6 +179,7 @@ export default function Home() {
       <main className="success-page">
         <div className="success-orbit orbit-one" />
         <div className="success-orbit orbit-two" />
+        <div className="success-spark" />
         <a className="brand brand-dark" href="#top" aria-label="TEDx Thyna Youth home">TED<span>x</span> THYNA</a>
         <div className="success-card">
           <div className="success-mark"><Check size={32} strokeWidth={2.5} /></div>
@@ -178,9 +197,9 @@ export default function Home() {
 
   return (
     <div id="top" className="site-shell">
-      <header className="site-header">
+      <header className="site-header entrance-fade">
         <a className="brand" href="#top" aria-label="TEDx Thyna Youth home">TED<span>x</span> THYNA <small>YOUTH</small></a>
-        <button className="menu-toggle" aria-label="Toggle navigation" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+        <button className={mobileMenuOpen ? "menu-toggle is-open" : "menu-toggle"} aria-label="Toggle navigation" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size={22} /> : <span>Menu</span>}
         </button>
         <nav className={mobileMenuOpen ? "nav-links is-open" : "nav-links"}>
@@ -192,7 +211,8 @@ export default function Home() {
 
       <section id="about" className="hero-section">
         <div className="hero-red-block" />
-        <div className="hero-copy">
+        <div className="hero-copy entrance-fade">
+          <span className="case-stamp">CONFIDENTIAL · OPEN CALL</span>
           <p className="eyebrow">Confidential open call · Dossier 01</p>
           <h1>Make your case.<br /><em>Own the room.</em></h1>
           <p className="hero-intro">Every great idea begins as a secret worth sharing. Tell us the thought, question, or story that should change the room.</p>
@@ -202,17 +222,20 @@ export default function Home() {
           <div className="hero-ring ring-large" />
           <div className="hero-ring ring-small" />
           <div className="hero-x">×</div>
+          <div className="hero-crosshair crosshair-a" />
+          <div className="hero-crosshair crosshair-b" />
           <p className="vertical-label">TRUST · VISION · VOICE</p>
+          <span className="confidential-tag">STRICTLY<br />CONFIDENTIAL</span>
         </div>
         <div className="hero-meta"><span>01</span><span>Open call · Theme: Mafia</span></div>
       </section>
 
-      <section className="intro-band">
+      <section className="intro-band entrance-fade">
         <p>Every room has a power dynamic. We are looking for voices with the nerve to question it, ideas with the weight to move it, and stories that belong on the stage.</p>
         <span className="intro-line" />
       </section>
 
-      <form id="form" className="application-form" onSubmit={submit}>
+      <form id="form" className="application-form entrance-fade" onSubmit={submit}>
         <div className="form-intro">
           <p className="eyebrow">Open call form</p>
           <h2>Build your<br /><em>case.</em></h2>
@@ -222,7 +245,7 @@ export default function Home() {
         </div>
 
         <div className="form-content">
-          <div className="form-section">
+          <div className="form-section scroll-reveal">
             <SectionHeading number="01" eyebrow="About you · The dossier" title="The person behind the idea" />
             <div className="fields-grid">
               <Field label="Full Name" error={fieldErrors.fullName}><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="Your full name" /></Field>
@@ -236,19 +259,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="form-section section-highlight">
+          <div className="form-section section-highlight scroll-reveal">
             <SectionHeading number="02" eyebrow="Your idea · The angle" title="The thought you cannot let go" />
             <Field label="What idea would you like to share on the TEDxThyna Youth stage?" hint="Go beyond the title. Help us see the idea through your eyes." error={fieldErrors.idea}><textarea required rows={6} value={form.idea} onChange={(e) => update("idea", e.target.value)} placeholder="I want to talk about..." /></Field>
             <Field label="What is something you believe about this topic that most people might disagree with?" error={fieldErrors.disagreement}><textarea required rows={6} value={form.disagreement} onChange={(e) => update("disagreement", e.target.value)} placeholder="Most people might disagree that..." /></Field>
           </div>
 
-          <div className="form-section">
+          <div className="form-section scroll-reveal">
             <SectionHeading number="03" eyebrow="Your talk · The pitch" title="Make it stay with us" />
             <Field label="If the audience remembers only ONE thing from your talk, what should it be?" error={fieldErrors.oneThing}><textarea required rows={5} value={form.oneThing} onChange={(e) => update("oneThing", e.target.value)} placeholder="The one thing I want them to remember is..." /></Field>
             <Field label="Which area best describes your idea?" error={fieldErrors.area}><select required value={form.area} onChange={(e) => update("area", e.target.value)}><option value="">Choose an area</option>{areas.map((area) => <option key={area}>{area}</option>)}</select></Field>
           </div>
 
-          <div className="form-section section-highlight">
+          <div className="form-section section-highlight scroll-reveal">
             <SectionHeading number="04" eyebrow="You as a speaker · The voice" title="Your voice, your way" />
             <Field label="Have you spoken in front of an audience before?" error={fieldErrors.spokenBefore}><div className="radio-row"><label className={form.spokenBefore === "Yes" ? "radio-card selected" : "radio-card"}><input required type="radio" name="spokenBefore" value="Yes" checked={form.spokenBefore === "Yes"} onChange={(e) => update("spokenBefore", e.target.value)} />Yes</label><label className={form.spokenBefore === "No" ? "radio-card selected" : "radio-card"}><input required type="radio" name="spokenBefore" value="No" checked={form.spokenBefore === "No"} onChange={(e) => update("spokenBefore", e.target.value)} />No</label></div></Field>
             <Field label="If yes, where?" required={false} hint="Events, conferences, university, competitions, social media, etc."><input value={form.speakingWhere} onChange={(e) => update("speakingWhere", e.target.value)} placeholder="Tell us where you have spoken" /></Field>
@@ -267,7 +290,7 @@ export default function Home() {
         </div>
       </form>
 
-      <footer className="site-footer"><a className="brand brand-dark" href="#top">TED<span>x</span> THYNA <small>YOUTH</small></a><p>Ideas worth spreading. No names, no masks—just the truth.</p><span>© TEDxThyna Youth</span></footer>
+      <footer className="site-footer entrance-fade"><a className="brand brand-dark" href="#top">TED<span>x</span> THYNA <small>YOUTH</small></a><p>Ideas worth spreading. No names, no masks—just the truth.</p><span>© TEDxThyna Youth</span></footer>
     </div>
   );
 }

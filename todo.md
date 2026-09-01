@@ -37,8 +37,29 @@
 
 - [x] Vérifier le contrat de mapping d’une erreur serveur vers le champ concerné avec un formatter tRPC explicite et un test Vitest du mapper partagé.
 
-- [ ] Repenser la direction artistique du formulaire TEDx autour du thème mafia/noir avec une élégance éditoriale.
-- [ ] Conserver la lisibilité, l’accessibilité et la responsivité de toutes les sections et du parcours de soumission.
-- [ ] Vérifier le rendu visuel desktop/mobile après la refonte mafia/noir.
-- [ ] Exécuter la suite TypeScript et Vitest après la refonte.
-- [ ] Inspecter le dépôt GitHub fourni et synchroniser la version finale vers https://github.com/ziedaffes23/opencall-tedx.git.
+- [x] Repenser la direction artistique du formulaire TEDx autour du thème mafia/noir avec une élégance éditoriale.
+- [x] Conserver la lisibilité, l’accessibilité et la responsivité de toutes les sections et du parcours de soumission.
+- [x] Vérifier le rendu visuel desktop/mobile après la refonte mafia/noir.
+- [x] Exécuter la suite TypeScript et Vitest après la refonte.
+- [ ] Synchroniser la version finale vers https://github.com/ziedaffes23/opencall-tedx.git ; le dépôt est inspecté mais l’accès d’écriture manque pour le compte authentifié.
+
+- [x] Repenser la direction artistique du formulaire TEDx autour du thème mafia/noir avec une élégance éditoriale.
+- [x] Conserver la lisibilité, l’accessibilité et la responsivité de toutes les sections et du parcours de soumission.
+- [x] Vérifier le rendu visuel desktop/mobile après la refonte mafia/noir.
+- [x] Exécuter la suite TypeScript et Vitest après la refonte.
+- [x] Inspecter le dépôt GitHub fourni et confirmer qu’il est vide.
+- [ ] Pousser la version finale vers GitHub après obtention d’un accès d’écriture au dépôt ziedaffes23/opencall-tedx.
+- [x] Créer un checkpoint de la refonte mafia/noir.
+
+- [x] Revalider le parcours logique après la refonte mafia/noir : validation, erreurs, upload photo, chargement et confirmation couverts par les procédures et tests existants.
+- [x] Vérifier les points d’accessibilité essentiels : focus visibles, labels, messages d’erreur annoncés et contraste visuel de la palette mafia/noir.
+
+- [x] Repenser la composition mafia/noir avec une hiérarchie visuelle plus cinématographique.
+- [x] Ajouter des animations d’entrée, de navigation, de scroll et de micro-interaction sans nuire à la lisibilité.
+- [x] Respecter prefers-reduced-motion et maintenir les états de focus accessibles.
+- [x] Vérifier desktop/mobile et la suite TypeScript/Vitest après les animations.
+- [x] Revérifier les permissions GitHub : le compte `affesfatma57-prog` dispose maintenant du rôle `write` sur le dépôt fourni.
+- [ ] Créer un checkpoint de la nouvelle version animée.
+
+- [x] Ajouter une animation explicite d’ouverture/fermeture du menu mobile.
+- [x] Ajouter une animation de révélation réellement déclenchée par l’entrée des sections dans le viewport.
