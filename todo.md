@@ -73,3 +73,6 @@
 - [ ] Configurer `GOOGLE_SHEETS_WEBHOOK_URL` dans Vercel uniquement, sans dépendre du secret Manus.
 - [ ] Vérifier l’accès Vercel et la possibilité de déployer le serveur actuel sur cette plateforme.
 - [ ] Documenter les réglages Vercel et le test réel de soumission vers Google Sheets.
+
+- [ ] Corriger le déploiement Vercel qui affiche actuellement le contenu source au lieu de l’interface compilée.
+- [ ] Vérifier la route publique, le handler API et la soumission Google Sheets sur le déploiement Vercel corrigé.
