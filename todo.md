@@ -80,3 +80,5 @@
 - [ ] Corriger les imports ESM sans extension dans les fonctions Vercel, responsables de `ERR_MODULE_NOT_FOUND` sur `server/routers`.
 
 - [ ] Éviter le typecheck Vercel des sources serveur Express en exposant la route tRPC via un bundle JavaScript généré par esbuild.
+
+- [ ] Convertir les entrypoints Vercel API en JavaScript pour éviter le typecheck automatique Vercel des types Express du projet.
