@@ -78,3 +78,5 @@
 - [ ] Vérifier la route publique, le handler API et la soumission Google Sheets sur le déploiement Vercel corrigé.
 
 - [ ] Corriger les imports ESM sans extension dans les fonctions Vercel, responsables de `ERR_MODULE_NOT_FOUND` sur `server/routers`.
+
+- [ ] Éviter le typecheck Vercel des sources serveur Express en exposant la route tRPC via un bundle JavaScript généré par esbuild.
