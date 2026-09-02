@@ -76,3 +76,5 @@
 
 - [ ] Corriger le déploiement Vercel qui affiche actuellement le contenu source au lieu de l’interface compilée.
 - [ ] Vérifier la route publique, le handler API et la soumission Google Sheets sur le déploiement Vercel corrigé.
+
+- [ ] Corriger les imports ESM sans extension dans les fonctions Vercel, responsables de `ERR_MODULE_NOT_FOUND` sur `server/routers`.
