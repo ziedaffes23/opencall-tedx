@@ -69,11 +69,17 @@ export const appRouter = router({
       const isPng = input.photoMimeType === "image/png" && photoBuffer.length >= 8 && photoBuffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
       if (!isJpeg && !isPng) throw new Error("Photo content does not match its file type");
       const safeName = input.photoName.replace(/[^a-zA-Z0-9._-]/g, "-");
-      const { url: photoUrl } = await storagePut(
-        `speaker-applications/${Date.now()}-${safeName}`,
-        photoBuffer,
-        input.photoMimeType,
-      );
+      let photoUrl = "Photo upload unavailable";
+      try {
+        ({ url: photoUrl } = await storagePut(
+          `speaker-applications/${Date.now()}-${safeName}`,
+          photoBuffer,
+          input.photoMimeType,
+        ));
+      } catch (error) {
+        if (!(error instanceof Error) || !error.message.startsWith("Storage config missing:")) throw error;
+        console.warn("[Speaker application] Photo storage is not configured; continuing without photo URL");
+      }
       const application = {
         fullName: input.fullName,
         email: input.email,
