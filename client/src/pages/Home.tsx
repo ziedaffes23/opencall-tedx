@@ -225,7 +225,7 @@ export default function Home() {
           <p className="eyebrow">Dossier received</p>
           <h1>Your case has been heard.</h1>
           <p>Thank you for trusting TEDxThyna Youth with your story. Our team will review your dossier and contact you if your idea moves forward.</p>
-          <button className="button button-dark" onClick={() => { setSubmitted(false); setForm(initialForm); setPhoto(null); }}>
+          <button className="button button-dark" onClick={() => { setSubmitted(false); setCurrentStep(0); setForm(initialForm); setPhoto(null); }}>
             Submit another application <ArrowUpRight size={18} />
           </button>
         </div>
