@@ -5,6 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { createSpeakerApplication, findRecentSpeakerApplication } from "./db";
 import { storagePut } from "./storage";
+import { syncApplicationToGoogleSheets } from "./googleSheets";
 
 const recentSubmissions = new Map<string, number>();
 
@@ -95,15 +96,13 @@ export const appRouter = router({
         status: "new" as const,
       };
       const saved = await createSpeakerApplication(application);
-      let sheetSynced = false;
-      if (process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
-        const sheetResponse = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...application, applicationId: saved.id, submittedAt: new Date().toISOString() }),
-        });
-        if (!sheetResponse.ok) throw new Error("Google Sheets submission failed");
-        sheetSynced = true;
+      const sheetSynced = await syncApplicationToGoogleSheets({
+        ...application,
+        applicationId: saved.id,
+        submittedAt: new Date().toISOString(),
+      });
+      if (process.env.GOOGLE_SHEETS_WEBHOOK_URL && !sheetSynced) {
+        throw new Error("Google Sheets submission failed");
       }
       return { success: true, applicationId: saved.id, sheetSynced } as const;
     }),
