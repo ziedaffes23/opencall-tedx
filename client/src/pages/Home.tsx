@@ -62,6 +62,7 @@ function SectionHeading({ number, eyebrow, title }: { number: string; eyebrow: s
 }
 
 export default function Home() {
+  const applicationPage = window.location.pathname === "/apply";
   const [form, setForm] = useState<FormState>(initialForm);
   const [currentStep, setCurrentStep] = useState(0);
   const [photo, setPhoto] = useState<File | null>(null);
@@ -242,20 +243,20 @@ export default function Home() {
           {mobileMenuOpen ? <X size={22} /> : <span>Menu</span>}
         </button>
         <nav className={mobileMenuOpen ? "nav-links is-open" : "nav-links"}>
-          <a href="#about" onClick={() => setMobileMenuOpen(false)}>The open call</a>
-          <a href="#form" onClick={() => setMobileMenuOpen(false)}>Apply to speak</a>
-          <a href="#form" className="nav-cta" onClick={() => setMobileMenuOpen(false)}>Share your idea <ArrowUpRight size={16} /></a>
+          <a href="/" onClick={() => setMobileMenuOpen(false)}>The open call</a>
+          <a href="/apply" onClick={() => setMobileMenuOpen(false)}>Apply to speak</a>
+          <a href="/apply" className="nav-cta" onClick={() => setMobileMenuOpen(false)}>Share your idea <ArrowUpRight size={16} /></a>
         </nav>
       </header>
 
-      <section id="about" className="hero-section">
+      {!applicationPage && <><section id="about" className="hero-section">
         <div className="hero-red-block" />
         <div className="hero-copy entrance-fade">
           <span className="case-stamp">CONFIDENTIAL · OPEN CALL</span>
           <p className="eyebrow">Confidential open call · Dossier 01</p>
           <h1>Make your case.<br /><em>Own the room.</em></h1>
           <p className="hero-intro">Every great idea begins as a secret worth sharing. Tell us the thought, question, or story that should change the room.</p>
-          <a className="text-link" href="#form">Open the dossier <ArrowDown size={17} /></a>
+          <a className="text-link" href="/apply">Open the dossier <ArrowDown size={17} /></a>
         </div>
         <div className="hero-visual" aria-hidden="true">
           <div className="hero-file-card">
@@ -273,9 +274,10 @@ export default function Home() {
       <section className="intro-band entrance-fade">
         <p>Every room has a power dynamic. We are looking for voices with the nerve to question it, ideas with the weight to move it, and stories that belong on the stage.</p>
         <span className="intro-line" />
-      </section>
+      </section></>}
 
-      <form id="form" className="application-form entrance-fade" onSubmit={submit}>
+      {applicationPage && <div className="application-page-heading"><p className="eyebrow">Confidential open call · Dossier 01</p><h1>Build your<br /><em>case.</em></h1><p>Take your time. There are no perfect answers—only ideas with a point of view.</p></div>}
+      {applicationPage && <form id="form" className="application-form entrance-fade" onSubmit={submit}>
         <div className="form-intro">
           <p className="eyebrow">Open call form</p>
           <h2>Build your<br /><em>case.</em></h2>
@@ -335,7 +337,7 @@ export default function Home() {
             {currentStep < 4 && <button type="button" className="button button-red" onClick={() => goToStep(currentStep + 1)}>Continue <ArrowUpRight size={19} /></button>}
           </div>
         </div>
-      </form>
+      </form>}
 
       <footer className="site-footer entrance-fade"><a className="brand brand-dark" href="#top">TED<span>x</span> THYNA <small>YOUTH</small></a><p>Ideas worth spreading. No names, no masks—just the truth.</p><span>© TEDxThyna Youth</span></footer>
     </div>
