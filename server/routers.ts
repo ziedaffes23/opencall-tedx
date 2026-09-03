@@ -101,16 +101,23 @@ export const appRouter = router({
         consent: 1,
         status: "new" as const,
       };
-      const saved = await createSpeakerApplication(application);
+      let applicationId = Date.now();
+      try {
+        const saved = await createSpeakerApplication(application);
+        applicationId = saved.id;
+      } catch (error) {
+        if (!(error instanceof Error) || error.message !== "Database is not available") throw error;
+        console.warn("[Speaker application] Database is not configured; continuing with Google Sheets only");
+      }
       const sheetSynced = await syncApplicationToGoogleSheets({
         ...application,
-        applicationId: saved.id,
+        applicationId,
         submittedAt: new Date().toISOString(),
       });
       if (process.env.GOOGLE_SHEETS_WEBHOOK_URL && !sheetSynced) {
         throw new Error("Google Sheets submission failed");
       }
-      return { success: true, applicationId: saved.id, sheetSynced } as const;
+      return { success: true, applicationId, sheetSynced } as const;
     }),
   }),
 });
