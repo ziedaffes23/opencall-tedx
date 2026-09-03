@@ -8,7 +8,7 @@ Create a Google Sheet (for example, **TEDx Thyna Speaker Applications**) in the 
 
 ## 2. Add the receiver
 
-Open **Extensions → Apps Script** from that spreadsheet. Replace the default script with [`google-apps-script/Code.gs`](google-apps-script/Code.gs). Change `WEBHOOK_SECRET` from the placeholder to a long random value, for example a 32-character password. Keep that value private.
+Open **Extensions → Apps Script** from that spreadsheet. Replace the default script with [`google-apps-script/Code.gs`](google-apps-script/Code.gs). Change `WEBHOOK_SECRET` from the placeholder to a long random value, for example a 32-character password. Keep that value private. The updated script saves each uploaded JPG/PNG to Google Drive and writes the Drive link in the `Photo URL` column. Optionally set `DRIVE_FOLDER_ID` to the ID of a Drive folder where photos should be stored.
 
 Deploy it using **Deploy → New deployment → Web app** with:
 
@@ -17,7 +17,7 @@ Deploy it using **Deploy → New deployment → Web app** with:
 | Execute as | Me (the sheet owner) |
 | Who has access | Anyone |
 
-Copy the resulting URL. It must look like `https://script.google.com/macros/s/.../exec`. If Apps Script asks for authorization, review and allow access to the spreadsheet.
+Copy the resulting URL. It must look like `https://script.google.com/macros/s/.../exec`. If Apps Script asks for authorization, review and allow access to the spreadsheet and Google Drive. When updating an existing deployment, use **Deploy → Manage deployments → Edit → New version → Deploy** so the new photo-saving code becomes live.
 
 ## 3. Configure Vercel
 

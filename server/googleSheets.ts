@@ -17,6 +17,9 @@ type SpeakerApplicationForSheet = {
   speakingWhere: string | null;
   whySpeak: string;
   photoUrl: string;
+  photoName?: string;
+  photoMimeType?: "image/jpeg" | "image/png";
+  photoData?: string;
   anythingElse: string | null;
   consent: number;
   status: string;

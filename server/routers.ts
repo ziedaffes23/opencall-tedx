@@ -113,6 +113,9 @@ export const appRouter = router({
         ...application,
         applicationId,
         submittedAt: new Date().toISOString(),
+        photoName: input.photoName,
+        photoMimeType: input.photoMimeType,
+        photoData: input.photoData,
       });
       if (process.env.GOOGLE_SHEETS_WEBHOOK_URL && !sheetSynced) {
         throw new Error("Google Sheets submission failed");
