@@ -63,6 +63,7 @@ function SectionHeading({ number, eyebrow, title }: { number: string; eyebrow: s
 
 export default function Home() {
   const [form, setForm] = useState<FormState>(initialForm);
+  const [currentStep, setCurrentStep] = useState(0);
   const [photo, setPhoto] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -93,6 +94,44 @@ export default function Home() {
   const update = (key: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [key]: value }));
     setFieldErrors((current) => ({ ...current, [key]: undefined }));
+  };
+
+  const stepFields: Array<Array<[keyof FormState, string]>> = [
+    [["fullName", "Please enter your full name."], ["email", "Please enter a valid email address."], ["phone", "Please enter your phone number."], ["age", "Please enter your age."], ["cityCountry", "Please enter your city and country."], ["status", "Please choose your current status."], ["currentWork", "Please tell us briefly what you currently do."]],
+    [["idea", "Please describe the idea you want to share."], ["disagreement", "Please share the belief that might be challenged."]],
+    [["oneThing", "Please tell us the one thing to remember."], ["area", "Please choose the area that best fits your idea."]],
+    [["spokenBefore", "Please tell us if you have spoken publicly before."], ["whySpeak", "Please tell us why you want to speak at TEDxThyna Youth."]],
+    [],
+  ];
+
+  const validateStep = (step: number) => {
+    setFormError("");
+    const missing = Object.fromEntries(stepFields[step].filter(([key]) => !form[key].trim()).map(([key, message]) => [key, message])) as Partial<Record<keyof FormState, string>>;
+    if (Object.keys(missing).length) {
+      setFieldErrors(missing);
+      setFormError("Please complete the highlighted fields before continuing.");
+      return false;
+    }
+    if (step === 1 && (form.idea.trim().length < 20 || form.disagreement.trim().length < 20)) {
+      setFormError("Please give us a little more detail in your answers.");
+      return false;
+    }
+    if (step === 3 && form.whySpeak.trim().length < 20) {
+      setFormError("Please tell us a little more about why you want to speak.");
+      return false;
+    }
+    if (step === 4 && !photo) {
+      setPhotoError("Please upload a recent JPG or PNG photo before submitting.");
+      setFormError("Please complete the highlighted field before submitting.");
+      return false;
+    }
+    return true;
+  };
+
+  const goToStep = (step: number) => {
+    if (step > currentStep && !validateStep(currentStep)) return;
+    setCurrentStep(Math.max(0, Math.min(4, step)));
+    window.scrollTo({ top: document.getElementById("form")?.offsetTop ?? 0, behavior: "smooth" });
   };
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -246,7 +285,10 @@ export default function Home() {
         </div>
 
         <div className="form-content">
-          <div className="form-section scroll-reveal">
+          <div className="step-progress" aria-label="Application progress">
+            {['About you', 'Your idea', 'Your talk', 'Your voice', 'Final step'].map((label, index) => <button type="button" key={label} className={index === currentStep ? 'step-dot active' : index < currentStep ? 'step-dot complete' : 'step-dot'} onClick={() => goToStep(index)}><span>{String(index + 1).padStart(2, '0')}</span>{label}</button>)}
+          </div>
+          {currentStep === 0 && <div className="form-section scroll-reveal">
             <SectionHeading number="01" eyebrow="About you · The dossier" title="The person behind the idea" />
             <div className="fields-grid">
               <Field label="Full Name" error={fieldErrors.fullName}><input required value={form.fullName} onChange={(e) => update("fullName", e.target.value)} placeholder="Your full name" /></Field>
@@ -258,28 +300,28 @@ export default function Home() {
               <Field label="What do you currently do?" hint="A short answer is perfect." error={fieldErrors.currentWork}><input required value={form.currentWork} onChange={(e) => update("currentWork", e.target.value)} placeholder="Tell us briefly" /></Field>
               <Field label="Your links" required={false} hint="LinkedIn / Instagram / Portfolio / Website"><input value={form.links} onChange={(e) => update("links", e.target.value)} placeholder="https://" /></Field>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-section section-highlight scroll-reveal">
+          {currentStep === 1 && <div className="form-section section-highlight scroll-reveal">
             <SectionHeading number="02" eyebrow="Your idea · The angle" title="The thought you cannot let go" />
             <Field label="What idea would you like to share on the TEDxThyna Youth stage?" hint="Go beyond the title. Help us see the idea through your eyes." error={fieldErrors.idea}><textarea required rows={6} value={form.idea} onChange={(e) => update("idea", e.target.value)} placeholder="I want to talk about..." /></Field>
             <Field label="What is something you believe about this topic that most people might disagree with?" error={fieldErrors.disagreement}><textarea required rows={6} value={form.disagreement} onChange={(e) => update("disagreement", e.target.value)} placeholder="Most people might disagree that..." /></Field>
-          </div>
+          </div>}
 
-          <div className="form-section scroll-reveal">
+          {currentStep === 2 && <div className="form-section scroll-reveal">
             <SectionHeading number="03" eyebrow="Your talk · The pitch" title="Make it stay with us" />
             <Field label="If the audience remembers only ONE thing from your talk, what should it be?" error={fieldErrors.oneThing}><textarea required rows={5} value={form.oneThing} onChange={(e) => update("oneThing", e.target.value)} placeholder="The one thing I want them to remember is..." /></Field>
             <Field label="Which area best describes your idea?" error={fieldErrors.area}><select required value={form.area} onChange={(e) => update("area", e.target.value)}><option value="">Choose an area</option>{areas.map((area) => <option key={area}>{area}</option>)}</select></Field>
-          </div>
+          </div>}
 
-          <div className="form-section section-highlight scroll-reveal">
+          {currentStep === 3 && <div className="form-section section-highlight scroll-reveal">
             <SectionHeading number="04" eyebrow="You as a speaker · The voice" title="Your voice, your way" />
             <Field label="Have you spoken in front of an audience before?" error={fieldErrors.spokenBefore}><div className="radio-row"><label className={form.spokenBefore === "Yes" ? "radio-card selected" : "radio-card"}><input required type="radio" name="spokenBefore" value="Yes" checked={form.spokenBefore === "Yes"} onChange={(e) => update("spokenBefore", e.target.value)} />Yes</label><label className={form.spokenBefore === "No" ? "radio-card selected" : "radio-card"}><input required type="radio" name="spokenBefore" value="No" checked={form.spokenBefore === "No"} onChange={(e) => update("spokenBefore", e.target.value)} />No</label></div></Field>
             <Field label="If yes, where?" required={false} hint="Events, conferences, university, competitions, social media, etc."><input value={form.speakingWhere} onChange={(e) => update("speakingWhere", e.target.value)} placeholder="Tell us where you have spoken" /></Field>
             <Field label="Why do you want to speak at TEDxThyna Youth?" error={fieldErrors.whySpeak}><textarea required rows={6} value={form.whySpeak} onChange={(e) => update("whySpeak", e.target.value)} placeholder="I want to speak because..." /></Field>
-          </div>
+          </div>}
 
-          <div className="form-section final-section">
+          {currentStep === 4 && <div className="form-section final-section">
             <SectionHeading number="05" eyebrow="Final step · The signature" title="One last thing" />
             <Field label="Upload a recent photo of yourself" hint="JPG or PNG · Maximum 5 MB"><label className={photo ? "upload-box has-file" : "upload-box"}><input required type="file" accept="image/jpeg,image/png" onChange={(e) => { const file = e.target.files?.[0] || null; if (!file) { setPhoto(null); setPhotoError(""); return; } if (!["image/jpeg", "image/png"].includes(file.type)) { setPhoto(null); setPhotoError("Only JPG and PNG files are accepted."); return; } if (file.size > 5 * 1024 * 1024) { setPhoto(null); setPhotoError("Your photo must be 5 MB or smaller."); return; } setPhotoError(""); setPhoto(file); }} />{photo ? <><Check size={20} /><span>{photo.name}</span><small>Photo ready to upload</small></> : <><Upload size={24} /><span>Choose a photo</span><small>or drag and drop it here</small></>}</label>{photoError && <span className="field-error" role="alert">{photoError}</span>}</Field>
             <Field label="Is there anything else you would like to tell the TEDxThyna Youth team?" required={false}><textarea rows={5} value={form.anythingElse} onChange={(e) => update("anythingElse", e.target.value)} placeholder="Anything else on your mind..." /></Field>
@@ -287,6 +329,10 @@ export default function Home() {
             <label className="spam-trap" aria-hidden="true">Leave this field empty<input tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} /></label>
             <button className="button button-red" type="submit" disabled={submitApplication.isPending}>{submitApplication.isPending ? "Sending your application…" : "Submit my application"} <ArrowUpRight size={19} /></button>
             {submitApplication.isError && !formError && <p className="submit-error" role="alert">Something went wrong while sending your application. Please check your information and try again.</p>}
+          </div>}
+          <div className="step-actions">
+            {currentStep > 0 && <button type="button" className="button button-ghost" onClick={() => goToStep(currentStep - 1)}>← Previous</button>}
+            {currentStep < 4 && <button type="button" className="button button-red" onClick={() => goToStep(currentStep + 1)}>Continue <ArrowUpRight size={19} /></button>}
           </div>
         </div>
       </form>

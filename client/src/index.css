@@ -51,6 +51,15 @@ h1 em, h2 em { font-family: 'Playfair Display', serif; font-weight: 500; letter-
 .form-required-note { font-family: 'DM Mono', monospace; font-size: .61rem; color: #888076; margin-top: 54px; }
 .required { color: #8b1c29; }
 .form-content { min-width: 0; }
+.step-progress { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 36px; padding-bottom: 22px; border-bottom: 1px solid #cfc4b4; }
+.step-dot { flex: 1; border: 0; background: transparent; color: #898076; padding: 0; text-align: left; cursor: pointer; font-family: 'DM Mono', monospace; font-size: .58rem; text-transform: uppercase; letter-spacing: .08em; }
+.step-dot span { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #b9ad9d; margin-bottom: 9px; color: #898076; }
+.step-dot.active, .step-dot.complete { color: #65131d; }
+.step-dot.active span { background: #65131d; border-color: #65131d; color: #f8f2e7; }
+.step-dot.complete span { border-color: #65131d; color: #65131d; }
+.step-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 12px; }
+.button-ghost { background: transparent; color: #65131d; border: 1px solid #b9ad9d; }
+.button-ghost:hover { background: #e7dfd2; }
 .form-section { border-top: 1px solid #cfc4b4; padding: 51px 0 72px; }
 .form-section:first-child { padding-top: 0; border-top: 0; }
 .section-highlight { background: #e7dfd2; margin-left: -35px; margin-right: -35px; padding: 51px 35px 72px; border: 0; }
@@ -125,6 +134,9 @@ select { appearance: none; background-image: linear-gradient(45deg, transparent 
   .section-highlight { margin-left: -8vw; margin-right: -8vw; padding: 49px 8vw 60px; }
   .fields-grid { grid-template-columns: 1fr; gap: 0; }
   .section-heading h2 { font-size: 2rem; }
+  .step-progress { gap: 5px; overflow-x: auto; }
+  .step-dot { min-width: 72px; font-size: .5rem; }
+  .step-dot span { width: 26px; height: 26px; }
   .site-footer { align-items: flex-start; flex-direction: column; gap: 22px; padding: 40px 8vw; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; } }
