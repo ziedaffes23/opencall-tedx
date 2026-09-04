@@ -124,6 +124,12 @@ export default function Home() {
       window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
       return false;
     }
+    if (step === 2 && form.oneThing.trim().length < 10) {
+      setFieldErrors({ oneThing: "Please write at least 10 characters about the one thing your audience should remember." });
+      setFormError("Please give us a little more detail about your main takeaway.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
+      return false;
+    }
     if (step === 4 && !photo) {
       setPhotoError("Please upload a recent JPG or PNG photo before submitting.");
       setFormError("Please complete the highlighted field before submitting.");
@@ -174,7 +180,7 @@ export default function Home() {
       setFormError("Please correct the photo upload before submitting.");
       return;
     }
-    if (form.idea.trim().length < 20 || form.disagreement.trim().length < 20 || form.whySpeak.trim().length < 20) {
+    if (form.idea.trim().length < 20 || form.disagreement.trim().length < 20 || form.oneThing.trim().length < 10 || form.whySpeak.trim().length < 20) {
       setFormError("Please give us a little more detail in the long-answer fields.");
       return;
     }
