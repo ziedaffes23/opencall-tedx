@@ -32,12 +32,19 @@ function doPost(e) {
     lockAcquired = lock.tryLock(5000);
     if (!lockAcquired) return jsonResponse({ ok: false, error: "Busy, please retry" });
 
+    var photoWarning = "";
     if (!body.photoUrl || body.photoUrl === "Photo upload unavailable") {
-      body.photoUrl = savePhoto(body);
+      try {
+        body.photoUrl = savePhoto(body);
+      } catch (photoError) {
+        console.error(photoError);
+        body.photoUrl = "Photo upload unavailable - authorize Google Drive";
+        photoWarning = "Photo could not be saved; the application row was still recorded";
+      }
     }
     var sheet = getSheet();
     sheet.appendRow(HEADERS.map(function (header) { return valueForHeader(body, header); }));
-    return jsonResponse({ ok: true, photoUrl: body.photoUrl });
+    return jsonResponse({ ok: true, photoUrl: body.photoUrl, warning: photoWarning });
   } catch (error) {
     console.error(error);
     return jsonResponse({ ok: false, error: String(error) });
