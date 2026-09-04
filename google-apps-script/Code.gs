@@ -20,6 +20,13 @@ function doGet() {
   return jsonResponse({ ok: true, service: "TEDx Thyna speaker applications" });
 }
 
+// Run this function once from the Apps Script editor to trigger authorization.
+function authorizeServices() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var driveName = DriveApp.getRootFolder().getName();
+  console.log("Authorized spreadsheet: " + spreadsheet.getName() + "; Drive: " + driveName);
+}
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   var lockAcquired = false;

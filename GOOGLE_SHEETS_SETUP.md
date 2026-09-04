@@ -17,7 +17,7 @@ Deploy it using **Deploy → New deployment → Web app** with:
 | Execute as | Me (the sheet owner) |
 | Who has access | Anyone |
 
-Copy the resulting URL. It must look like `https://script.google.com/macros/s/.../exec`. If Apps Script asks for authorization, review and allow access to the spreadsheet and Google Drive. The receiver is designed to append the application row even if Drive authorization is unavailable; in that case it marks the photo cell for follow-up instead of rejecting the application. When updating an existing deployment, use **Deploy → Manage deployments → Edit → New version → Deploy** so the new photo-saving code becomes live.
+Before deploying, select **`authorizeServices`** from the function dropdown at the top of the Apps Script editor and click **Run**. This function intentionally calls both Sheets and Drive so Google displays the authorization flow. If Google shows a warning, click **Review permissions → Advanced → Go to project → Allow**. Copy the resulting web-app URL; it must look like `https://script.google.com/macros/s/.../exec`. The receiver is designed to append the application row even if Drive authorization is unavailable; in that case it marks the photo cell for follow-up instead of rejecting the application. When updating an existing deployment, use **Deploy → Manage deployments → Edit → New version → Deploy** so the new photo-saving code becomes live.
 
 ## 3. Configure Vercel
 
