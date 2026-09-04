@@ -109,7 +109,7 @@ describe("speaker.submit", () => {
 
   it("stores a valid application and forwards it to the sheet webhook", async () => {
     const originalFetch = globalThis.fetch;
-    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true }) as unknown as typeof fetch;
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, text: async () => JSON.stringify({ ok: true }) }) as unknown as typeof fetch;
     process.env.GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/test/exec";
 
     const caller = appRouter.createCaller(context("success-ip"));

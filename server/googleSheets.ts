@@ -45,9 +45,16 @@ export async function syncApplicationToGoogleSheets(application: SpeakerApplicat
         body: payload,
         signal: controller.signal,
       });
-      if (response.ok) return true;
+      const responseText = await response.text();
+      let responseBody: { ok?: boolean; error?: string } = {};
+      try {
+        responseBody = JSON.parse(responseText) as { ok?: boolean; error?: string };
+      } catch {
+        // Treat a non-JSON response as a failed webhook acknowledgement.
+      }
+      if (response.ok && responseBody.ok === true) return true;
       if (attempt === MAX_ATTEMPTS) {
-        console.error(`[Google Sheets] webhook returned ${response.status}`);
+        console.error(`[Google Sheets] webhook returned ${response.status}: ${responseBody.error || responseText.slice(0, 200)}`);
       }
     } catch (error) {
       if (attempt === MAX_ATTEMPTS) {
