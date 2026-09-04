@@ -111,19 +111,23 @@ export default function Home() {
     if (Object.keys(missing).length) {
       setFieldErrors(missing);
       setFormError("Please complete the highlighted fields before continuing.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
       return false;
     }
     if (step === 1 && (form.idea.trim().length < 20 || form.disagreement.trim().length < 20)) {
       setFormError("Please give us a little more detail in your answers.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
       return false;
     }
     if (step === 3 && form.whySpeak.trim().length < 20) {
       setFormError("Please tell us a little more about why you want to speak.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
       return false;
     }
     if (step === 4 && !photo) {
       setPhotoError("Please upload a recent JPG or PNG photo before submitting.");
       setFormError("Please complete the highlighted field before submitting.");
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
       return false;
     }
     return true;
@@ -211,6 +215,7 @@ export default function Home() {
       const mapped = mapSpeakerSubmitError(error);
       setFieldErrors(mapped.fieldErrors);
       setFormError(mapped.formError);
+      window.setTimeout(() => document.querySelector<HTMLElement>(".form-alert")?.scrollIntoView({ behavior: "smooth", block: "center" }), 0);
     }
   };
 
@@ -283,7 +288,7 @@ export default function Home() {
           <h2>Build your<br /><em>case.</em></h2>
           <p>Take your time. There are no perfect answers—only ideas with a point of view.</p>
           <p className="form-required-note"><span className="required">*</span> Required field</p>
-          {formError && <p className="submit-error" role="alert">{formError}</p>}
+          {formError && <p className="submit-error form-alert" role="alert" aria-live="assertive"><strong>Action needed</strong><span>{formError}</span></p>}
         </div>
 
         <div className="form-content">
@@ -330,7 +335,7 @@ export default function Home() {
             <label className="consent-line"><input required type="checkbox" /> <span>I confirm that the information provided is accurate and I agree to be contacted by the TEDxThyna Youth team regarding this application.</span></label>
             <label className="spam-trap" aria-hidden="true">Leave this field empty<input tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} /></label>
             <button className="button button-red" type="submit" disabled={submitApplication.isPending}>{submitApplication.isPending ? "Sending your application…" : "Submit my application"} <ArrowUpRight size={19} /></button>
-            {submitApplication.isError && !formError && <p className="submit-error" role="alert">Something went wrong while sending your application. Please check your information and try again.</p>}
+            {submitApplication.isError && !formError && <p className="submit-error form-alert" role="alert" aria-live="assertive"><strong>Submission could not be completed</strong><span>Something went wrong while sending your application. Please check your information and try again.</span></p>}
           </div>}
           <div className="step-actions">
             {currentStep > 0 && <button type="button" className="button button-ghost" onClick={() => goToStep(currentStep - 1)}>← Previous</button>}

@@ -75,6 +75,7 @@ h1 em, h2 em { font-family: 'Playfair Display', serif; font-weight: 500; letter-
 .field-label { font-size: .76rem; font-weight: 600; letter-spacing: -.01em; }
 .field-hint { font-family: 'DM Mono', monospace; font-size: .59rem; color: #898076; margin-top: -3px; }
 .field-error { color: #8b1c29; font-family: 'DM Mono', monospace; font-size: .59rem; line-height: 1.5; }
+.field-group:has(.field-error) input:not([type="radio"]):not([type="checkbox"]), .field-group:has(.field-error) textarea, .field-group:has(.field-error) select { border-bottom: 2px solid #b21f31; background: rgba(178,31,49,.06); padding-left: 10px; }
 .spam-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
 input:not([type="radio"]):not([type="checkbox"]), textarea, select { width: 100%; border: 0; border-bottom: 1px solid #b9ad9d; background: transparent; border-radius: 0; color: #1b1715; padding: 12px 0; outline: none; transition: border-color .18s ease; }
 input:not([type="radio"]):not([type="checkbox"]):focus, textarea:focus, select:focus { border-color: #8b1c29; }
@@ -98,6 +99,8 @@ select { appearance: none; background-image: linear-gradient(45deg, transparent 
 .button-red { color: #f8f2e7; background: #65131d; }
 .button:disabled { opacity: .55; cursor: wait; transform: none; }
 .submit-error { color: #8b1c29; font-size: .72rem; line-height: 1.5; margin: 18px 0 0; }
+.form-alert { display: flex; flex-direction: column; gap: 6px; border: 2px solid #b21f31; border-left: 8px solid #b21f31; background: #fff1f0; padding: 16px 18px; font-size: .82rem; box-shadow: 0 8px 20px rgba(139,28,41,.12); }
+.form-alert strong { color: #7b1823; font-family: 'DM Mono', monospace; font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; }
 .button-dark { color: #f8f2e7; background: #1b1715; }
 .site-footer { background: #1b1715; color: #f7f2e9; min-height: 180px; display: flex; align-items: center; justify-content: space-between; padding: 35px 6vw; }
 .site-footer p, .site-footer > span { color: #81786e; font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .05em; }
